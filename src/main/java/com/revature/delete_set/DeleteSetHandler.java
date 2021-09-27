@@ -29,13 +29,12 @@ public class DeleteSetHandler implements RequestHandler<APIGatewayProxyRequestEv
 
             boolean success = setRepo.deleteSetById(target_id);
             responseEvent.setBody(mapper.toJson(success));
-
         }catch (InvalidRequestException ire) {
-
+           responseEvent.setStatusCode(400);
         }
 
 
-
+        responseEvent.setStatusCode(200);
         return responseEvent;
     }
 }
