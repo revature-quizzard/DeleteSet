@@ -5,6 +5,7 @@ import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBDeleteExpression;
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBMapper;
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBQueryExpression;
 import com.amazonaws.services.lambda.runtime.events.models.dynamodb.AttributeValue;
+import com.revature.Exceptions.InvalidRequestException;
 
 import java.util.HashMap;
 import java.util.List;
@@ -31,14 +32,16 @@ public class SetRepo {
         // storing resultant set in a list
         List<Set> target_set = dbReader.query(Set.class , query);
         // checking if the result is null , if not , that document is used to identify the document we want to delete
-            if(target_set.get(0) != null)
+            if(target_set.get(0) == null)
             {
-                dbReader.delete(target_set);
-                return true;
+                //return false and print debug line
+                System.out.println("Tags List From Tag Repo : " + target_set);
+                throw new InvalidRequestException("No Such Document");
             }
-            //return false and print debug line
-            System.out.println("Tags List From Tag Repo : " + target_set);
-            return  false;
+            dbReader.delete(target_set);
+            return true;
+
+
 
     }
 }
