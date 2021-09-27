@@ -19,21 +19,24 @@ public class SetRepo {
     }
 
     public boolean deleteSetById(String target_set_id) {
-
-
+        //creating new set_document for query
         Set s = new Set();
         s.setId(target_set_id);
+        //creating query using the set_document as a hash key value
+        // limit of one for now just because i know ids are unique
         DynamoDBQueryExpression<Set> query =
                 new DynamoDBQueryExpression<Set>()
                         .withHashKeyValues(s)
                         .withLimit(1);
-
+        // storing resultant set in a list
         List<Set> target_set = dbReader.query(Set.class , query);
+        // checking if the result is null , if not , that document is used to identify the document we want to delete
             if(target_set.get(0) != null)
             {
                 dbReader.delete(target_set);
                 return true;
             }
+            //return false and print debug line
             System.out.println("Tags List From Tag Repo : " + target_set);
             return  false;
 
