@@ -1,8 +1,8 @@
 AWSTemplateFormatVersion: '2010-09-09'
 Transform: 'AWS::Serverless-2016-10-31'
-Description: A simple AWS Lambda for searching book records within a DynamoDB table.
+Description: A simple AWS Lambda deleteing a set from the Table.
 Resources:
-  GetBooksFx:
+  DeleteSetsFx:
     Type: AWS::Serverless::Function
     Properties:
       CodeUri: target/delete-set-1.0-SNAPSHOT.jar
