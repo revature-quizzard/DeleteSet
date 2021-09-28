@@ -46,7 +46,7 @@
   <component name="PropertiesComponent">
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../GetWeaponLambda" />
     <property name="project.structure.last.edited" value="Modules" />
     <property name="project.structure.proportion" value="0.15" />
     <property name="project.structure.side.proportion" value="0.2" />
@@ -68,7 +68,7 @@
       <option name="handler" value="com.revature.delete_set.DeleteSetHandler" />
       <option name="image" value="false" />
       <option name="logicalFunctionName" />
-      <option name="memorySize" value="128" />
+      <option name="memorySize" value="256" />
       <option name="pathMappings">
         <list />
       </option>
@@ -77,13 +77,13 @@
       <option name="templateFile" />
       <option name="timeout" value="300" />
       <option name="useTemplate" value="false" />
-      <option name="input" />
+      <option name="input" value="{&#10;  &#10;}" />
       <option name="inputIsFile" value="false" />
       <sam>
-        <option name="additionalBuildArgs" />
-        <option name="additionalLocalArgs" />
+        <option name="additionalBuildArgs" value="" />
+        <option name="additionalLocalArgs" value="" />
         <option name="buildInContainer" value="false" />
-        <option name="dockerNetwork" />
+        <option name="dockerNetwork" value="" />
         <option name="skipImagePull" value="false" />
       </sam>
       <method v="2" />

@@ -20,7 +20,12 @@
     <!--        DynamoDB/Java Driver-->
 
     <dependencies>
-
+        <!-- Junit Testing Dependencies -->
+        <dependency>
+            <groupId>org.apache.isis.viewer</groupId>
+            <artifactId>junit</artifactId>
+            <version>0.2.0-incubating</version>
+        </dependency>
         <!-- AWS Lambda Dependencies -->
 
         <dependency>

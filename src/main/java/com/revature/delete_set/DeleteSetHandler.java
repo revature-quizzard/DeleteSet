@@ -14,6 +14,7 @@ import java.util.List;
 public class DeleteSetHandler implements RequestHandler<APIGatewayProxyRequestEvent, APIGatewayProxyResponseEvent> {
 
     private static final SetRepo setRepo = new SetRepo();
+    private static final UserRepo userRepo = new UserRepo();
     private static final Gson mapper = new GsonBuilder().setPrettyPrinting().create();
 
     @Override
@@ -27,7 +28,7 @@ public class DeleteSetHandler implements RequestHandler<APIGatewayProxyRequestEv
         // attempting to delete target set based on id
         try{
 
-            boolean success = setRepo.deleteSetById(target_id);
+            boolean success = setRepo.deleteSetById(target_id , userRepo.getAllUsers());
             responseEvent.setBody(mapper.toJson(success));
         }catch (InvalidRequestException ire) {
            responseEvent.setStatusCode(400);
