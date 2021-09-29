@@ -7,10 +7,7 @@ import com.amazonaws.services.lambda.runtime.events.APIGatewayProxyRequestEvent;
 import com.amazonaws.services.lambda.runtime.events.APIGatewayProxyResponseEvent;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.revature.Exceptions.InvalidRequestException;
-
-import java.util.ArrayList;
-import java.util.List;
+import com.revature.exceptions.InvalidRequestException;
 
 public class DeleteSetHandler implements RequestHandler<APIGatewayProxyRequestEvent, APIGatewayProxyResponseEvent> {
 
@@ -25,7 +22,7 @@ public class DeleteSetHandler implements RequestHandler<APIGatewayProxyRequestEv
 
         APIGatewayProxyResponseEvent responseEvent = new APIGatewayProxyResponseEvent();
         //getting id out of request body
-        String target_id = "9078fgrur6fy6gt75ri6";
+        String target_id = "5964b59b-9543-4c59-b6b6-3dfde355e7da";
         Object o = mapper.fromJson(requestEvent.getBody() , Object.class);
         System.out.println("From Delete Handler : " + o.toString());
 

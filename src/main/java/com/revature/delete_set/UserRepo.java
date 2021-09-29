@@ -1,39 +1,39 @@
 package com.revature.delete_set;
 
-import com.amazonaws.services.dynamodbv2.AmazonDynamoDBClientBuilder;
-import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBMapper;
-import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBScanExpression;
-import com.amazonaws.services.dynamodbv2.model.AttributeValue;
-import com.amazonaws.services.dynamodbv2.model.ResourceNotFoundException;
-import com.revature.Exceptions.InvalidRequestException;
-import java.util.HashMap;
+import com.revature.exceptions.ResourceNotFoundException;
+import software.amazon.awssdk.enhanced.dynamodb.DynamoDbEnhancedClient;
+import software.amazon.awssdk.enhanced.dynamodb.DynamoDbTable;
+import software.amazon.awssdk.enhanced.dynamodb.Expression;
+import software.amazon.awssdk.enhanced.dynamodb.TableSchema;
+import software.amazon.awssdk.enhanced.dynamodb.model.ScanEnhancedRequest;
+import software.amazon.awssdk.http.apache.ApacheHttpClient;
+import software.amazon.awssdk.services.dynamodb.DynamoDbClient;
+import software.amazon.awssdk.services.dynamodb.model.AttributeValue;
+
 import java.util.List;
-import java.util.Map;
+import java.util.stream.Collectors;
 
 
+public class UserRepo {
 
-    public class UserRepo {
-
-        private final DynamoDBMapper dbReader;
+        private final DynamoDbTable<User> userTable;
 
         public UserRepo(){
-            dbReader = new DynamoDBMapper(AmazonDynamoDBClientBuilder.defaultClient());
+            DynamoDbClient db = DynamoDbClient.builder().httpClient(ApacheHttpClient.create()).build();
+            DynamoDbEnhancedClient dbClient = DynamoDbEnhancedClient.builder().dynamoDbClient(db).build();
+            userTable = dbClient.table("Users", TableSchema.fromBean(User.class));
         }
 
-        public List<User> getAllUsers(){ return dbReader.scan(User.class, new DynamoDBScanExpression()); }
+        public List<User> getAllUsers(){ return userTable.scan().items().stream().collect(Collectors.toList()); }
 
         public User getUser(String name) {
-            Map<String, AttributeValue> eav = new HashMap<String, AttributeValue>();
-            eav.put(":val1", new AttributeValue().withS(name));
+            AttributeValue val = AttributeValue.builder().s(name).build();
+            Expression filter = Expression.builder().expression("#a = :b").putExpressionName("#a", "username") .putExpressionValue(":b", val).build();
+            ScanEnhancedRequest request = ScanEnhancedRequest.builder().filterExpression(filter).build();
 
-            DynamoDBScanExpression scanExpression = new DynamoDBScanExpression()
-                    .withFilterExpression("username = :val1").withExpressionAttributeValues(eav);
-
-            List<User> author = dbReader.scan(User.class, scanExpression);
-            if(author == null) {
-                throw new InvalidRequestException("null Author");
-            }
-            return author.get(0);
+            User user = userTable.scan(request).stream().findFirst().orElseThrow(ResourceNotFoundException::new).items().get(0);
+            System.out.println("USER WITH ID: " + user);
+            return user;
         }
 
         public User addSet(Set newSet, User user){
