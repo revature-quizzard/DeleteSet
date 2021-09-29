@@ -1,6 +1,7 @@
 package com.revature.delete_set;
 
 import com.amazonaws.services.lambda.runtime.Context;
+import com.amazonaws.services.lambda.runtime.LambdaLogger;
 import com.amazonaws.services.lambda.runtime.RequestHandler;
 import com.amazonaws.services.lambda.runtime.events.APIGatewayProxyRequestEvent;
 import com.amazonaws.services.lambda.runtime.events.APIGatewayProxyResponseEvent;
@@ -18,6 +19,9 @@ public class DeleteSetHandler implements RequestHandler<APIGatewayProxyRequestEv
 
     @Override
     public APIGatewayProxyResponseEvent handleRequest(APIGatewayProxyRequestEvent requestEvent, Context context) {
+
+        LambdaLogger logger = context.getLogger();
+        logger.log("RECEIVED EVENT: " + requestEvent);
 
         APIGatewayProxyResponseEvent responseEvent = new APIGatewayProxyResponseEvent();
         //getting id out of request body

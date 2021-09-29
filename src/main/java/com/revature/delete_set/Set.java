@@ -19,7 +19,7 @@ public class Set {
     private String id;
 
     @DynamoDBAttribute
-    private String s_name;
+    private String set_name;
 
     @DynamoDBAttribute
     private List<Tag> tags;

@@ -38,6 +38,7 @@ public class SetRepo {
         System.out.println("From SETRepo" + queryResult);
         // batch loading all target users to delete target set from their favorites list
         Map<String, List<Object>> loaded_docs = dbReader.batchLoad(queryResult);
+        System.out.println("From SETRepo" + loaded_docs);
         // batch deleting all references
         dbReader.batchDelete(loaded_docs);
         /*
