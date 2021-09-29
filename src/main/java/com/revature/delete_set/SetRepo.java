@@ -22,11 +22,16 @@ public class SetRepo {
         setTable = dbClient.table("Sets", TableSchema.fromBean(Set.class));
     }
 
-    public boolean deleteSetById(String target_set_id ) {
+    /**
+     * Deletes a set from the Sets table by id
+     * @Authors Jack Raney and Alfonso Holmes
+     * @param id
+     */
+    public boolean deleteSetById(String id ) {
         //creating new set_document for query
         Set s = new Set();
-        s.setId(target_set_id);
-        System.out.println(target_set_id);
+        s.setId(id);
+        System.out.println(id);
 
         setTable.deleteItem(s);
         //System.out.println(setTable.deleteItem(request));

@@ -11,9 +11,27 @@ import com.revature.exceptions.InvalidRequestException;
 
 public class DeleteSetHandler implements RequestHandler<APIGatewayProxyRequestEvent, APIGatewayProxyResponseEvent> {
 
-    private static final SetRepo setRepo = new SetRepo();
+    private final SetRepo setRepo;
+    private final UserRepo userRepo;
     private static final Gson mapper = new GsonBuilder().setPrettyPrinting().create();
 
+    public DeleteSetHandler() {
+        this.setRepo = new SetRepo();
+        this.userRepo = new UserRepo();
+    }
+
+    public DeleteSetHandler(SetRepo setRepo, UserRepo userRepo) {
+        this.setRepo = setRepo;
+        this.userRepo = userRepo;
+    }
+
+    /**
+     * Handles a DELETE request to the /sets/id endpoint
+     * @Authors Alfonso Holmes
+     * @param requestEvent
+     * @param context
+     * @return
+     */
     @Override
     public APIGatewayProxyResponseEvent handleRequest(APIGatewayProxyRequestEvent requestEvent, Context context) {
 
@@ -22,14 +40,12 @@ public class DeleteSetHandler implements RequestHandler<APIGatewayProxyRequestEv
 
         APIGatewayProxyResponseEvent responseEvent = new APIGatewayProxyResponseEvent();
         //getting id out of request body
-        String target_id = "5964b59b-9543-4c59-b6b6-3dfde355e7da";
-        Object o = mapper.fromJson(requestEvent.getBody() , Object.class);
-        System.out.println("From Delete Handler : " + o.toString());
+        String target_id = requestEvent.getPathParameters().get("id");
 
         // attempting to delete target set based on id
         try{
-
-            boolean success = setRepo.deleteSetById(target_id );
+            boolean success = setRepo.deleteSetById(target_id);
+            userRepo.purgeSet(target_id);
             responseEvent.setBody(mapper.toJson(success));
         }catch (InvalidRequestException ire) {
            responseEvent.setStatusCode(400);
