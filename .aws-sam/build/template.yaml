@@ -1,0 +1,9 @@
+Resources:
+  Function:
+    Type: AWS::Serverless::Function
+    Properties:
+      Timeout: 300
+      MemorySize: 256
+      Handler: com.revature.delete_set.DeleteSetHandler
+      CodeUri: Function
+      Runtime: java8.al2

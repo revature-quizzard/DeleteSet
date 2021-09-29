@@ -13,7 +13,7 @@ import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBAttribute;
 public class SetDto {
 
     @DynamoDBAttribute
-    private String name;
+    private String s_name;
 
     @DynamoDBAttribute
     private List<String> tags;
