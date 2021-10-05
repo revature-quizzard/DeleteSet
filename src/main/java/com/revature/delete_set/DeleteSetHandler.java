@@ -9,6 +9,9 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.revature.exceptions.InvalidRequestException;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public class DeleteSetHandler implements RequestHandler<APIGatewayProxyRequestEvent, APIGatewayProxyResponseEvent> {
 
     private final SetRepo setRepo;
@@ -39,6 +42,10 @@ public class DeleteSetHandler implements RequestHandler<APIGatewayProxyRequestEv
         logger.log("RECEIVED EVENT: " + requestEvent);
 
         APIGatewayProxyResponseEvent responseEvent = new APIGatewayProxyResponseEvent();
+        Map<String, String> headers = new HashMap<>();
+        headers.put("Access-Control-Allow-Headers", "Content-Type,X-Amz-Date,Authorization");
+        headers.put("Access-Control-Allow-Origin", "*");
+        responseEvent.setHeaders(headers);
         //getting id out of request body
         String target_id = requestEvent.getPathParameters().get("id");
 
