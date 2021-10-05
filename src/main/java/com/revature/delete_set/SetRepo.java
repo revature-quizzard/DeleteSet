@@ -1,54 +1,41 @@
 package com.revature.delete_set;
 
-import com.amazonaws.services.dynamodbv2.AmazonDynamoDBClientBuilder;
-import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBDeleteExpression;
-import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBMapper;
-import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBQueryExpression;
-import com.amazonaws.services.lambda.runtime.events.models.dynamodb.AttributeValue;
-import com.revature.Exceptions.InvalidRequestException;
+import com.revature.exceptions.InvalidRequestException;
+import com.revature.exceptions.ResourceNotFoundException;
+import software.amazon.awssdk.enhanced.dynamodb.*;
+import software.amazon.awssdk.enhanced.dynamodb.model.DeleteItemEnhancedRequest;
+import software.amazon.awssdk.enhanced.dynamodb.model.ScanEnhancedRequest;
+import software.amazon.awssdk.http.apache.ApacheHttpClient;
+import software.amazon.awssdk.regions.Region;
+import software.amazon.awssdk.services.dynamodb.DynamoDbClient;
+import software.amazon.awssdk.services.dynamodb.model.AttributeValue;
 
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
 
 public class SetRepo {
-    private final DynamoDBMapper dbReader;
+    private final DynamoDbTable<Set> setTable;
 
-    public SetRepo() {
-        dbReader = new DynamoDBMapper(AmazonDynamoDBClientBuilder.defaultClient());
+    public SetRepo(){
+        DynamoDbClient db = DynamoDbClient.builder().httpClient(ApacheHttpClient.create()).build();
+        DynamoDbEnhancedClient dbClient = DynamoDbEnhancedClient.builder().dynamoDbClient(db).build();
+        setTable = dbClient.table("Sets", TableSchema.fromBean(Set.class));
     }
 
-    public boolean deleteSetById(String target_set_id , List<User> all_users) {
+    /**
+     * Deletes a set from the Sets table by id
+     * @Authors Jack Raney and Alfonso Holmes
+     * @param id
+     */
+    public boolean deleteSetById(String id ) {
         //creating new set_document for query
         Set s = new Set();
-        s.setId(target_set_id);
-        // batch loading all target users to delete target set from their favorites list
-        ArrayList<Object> target_user_batch_query = new ArrayList<Object>();
-        target_user_batch_query.addAll(all_users);
-        Map<String, List<Object>> target_user_batch = dbReader.batchLoad(target_user_batch_query);
-        target_user_batch.values().forEach(u -> System.out.println(u));
+        s.setId(id);
+        System.out.println(id);
 
-        //creating query using the set_document as a hash key value
-        // limit of one for now just because i know ids are unique
-        DynamoDBQueryExpression<Set> query =
-                new DynamoDBQueryExpression<Set>()
-                        .withHashKeyValues(s)
-                        .withLimit(1);
-        // storing resultant set in a list
-        List<Set> target_set = dbReader.query(Set.class , query);
-        // checking if the result is null , if not , that document is used to identify the document we want to delete
-            if(target_set.get(0) == null)
-            {
-                //return false and print debug line
-                System.out.println("Tags List From Tag Repo : " + target_set);
-                throw new InvalidRequestException("No Such Document");
-            }
-            dbReader.delete(target_set);
-            return true;
-
-
+        setTable.deleteItem(s);
+        //System.out.println(setTable.deleteItem(request));
+        return true;
 
     }
 }

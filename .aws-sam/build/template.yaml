@@ -5,5 +5,5 @@ Resources:
       Timeout: 300
       MemorySize: 256
       Handler: com.revature.delete_set.DeleteSetHandler
-      CodeUri: C:\Users\raney\Desktop\Revature\projects\p3\deleteSet\deleteSet
+      CodeUri: Function
       Runtime: java8.al2

@@ -1,19 +1,41 @@
 package com.revature.delete_set;
 
-import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBAttribute;
-import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBTable;
+import lombok.Builder;
 import lombok.Data;
-
+import software.amazon.awssdk.enhanced.dynamodb.mapper.annotations.DynamoDbAttribute;
+import software.amazon.awssdk.enhanced.dynamodb.mapper.annotations.DynamoDbBean;
+import software.amazon.awssdk.enhanced.dynamodb.mapper.annotations.DynamoDbPartitionKey;
 
 @Data
-@DynamoDBTable(tableName = "Tags")
+@DynamoDbBean
 public class Tag {
 
-//    @DynamoDBHashKey
+    private String name;
+    private String color;
 
-    @DynamoDBAttribute
-    private String tag_name;
+    @DynamoDbPartitionKey
+    public String getName() {
+        return name;
+    }
 
-    @DynamoDBAttribute
-    private String tag_color;
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getColor() {
+        return color;
+    }
+
+    public void setColor(String color) {
+        this.color = color;
+    }
+
+    public Tag(String name){
+        this.name = name;
+    }
+
+    public Tag() {
+        super();
+    }
+
 }

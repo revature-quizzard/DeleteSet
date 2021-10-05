@@ -1,39 +1,44 @@
 package com.revature.delete_set;
-
-import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBAttribute;
-        import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBTable;
-        import lombok.Data;
-
-        import java.util.List;
+import java.util.List;
 
 
-
-@Data
-@DynamoDBTable(tableName = "Sets")
+//This class represents the fields of a Set that we expect to receive in a POST call
 public class SetDto {
 
-    @DynamoDBAttribute
-    private String name;
-
-    @DynamoDBAttribute
+    private String set_name;
     private List<String> tags;
-
-    @DynamoDBAttribute
     private String author;
-
-    @DynamoDBAttribute
     private boolean is_public;
 
-    @DynamoDBAttribute
-    private int views = 0;
+    public String getName() {
+        return set_name;
+    }
 
-    @DynamoDBAttribute
-    private int plays = 0;
+    public void setName(String name) {
+        this.set_name = name;
+    }
 
-    @DynamoDBAttribute
-    private int studies = 0;
+    public List<String> getTags() {
+        return tags;
+    }
 
-    @DynamoDBAttribute
-    private int favorites = 0;
+    public void setTags(List<String> tags) {
+        this.tags = tags;
+    }
+
+    public String getAuthor() {
+        return author;
+    }
+
+    public void setAuthor(String author) {
+        this.author = author;
+    }
+
+    public boolean is_public() {
+        return is_public;
+    }
+
+    public void setIs_public(boolean is_public) {
+        this.is_public = is_public;
+    }
 }
-
