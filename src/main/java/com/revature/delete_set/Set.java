@@ -1,7 +1,5 @@
 package com.revature.delete_set;
 
-import com.revature.delete_set.Card;
-import com.revature.delete_set.Tag;
 import lombok.Builder;
 import lombok.Data;
 import software.amazon.awssdk.enhanced.dynamodb.mapper.annotations.DynamoDbAttribute;
@@ -16,11 +14,11 @@ import java.util.List;
 public class Set {
 
     private String id;
-    private String set_name;
+    private String setName;
     private List<Tag> tags;
     private List<Card> cards;
     private String author;
-    private boolean is_public;
+    private boolean isPublic;
     private int views;
     private int plays;
     private int studies;
@@ -35,12 +33,12 @@ public class Set {
         this.id = id;
     }
 
-    public String getSet_name() {
-        return set_name;
+    public String getSetName() {
+        return setName;
     }
 
-    public void setSet_name(String set_name) {
-        this.set_name = set_name;
+    public void setSetName(String setName) {
+        this.setName = setName;
     }
 
     public List<Tag> getTags() {
@@ -67,12 +65,13 @@ public class Set {
         this.author = author;
     }
 
-    public boolean is_public() {
-        return is_public;
+    @DynamoDbAttribute("isPublic")
+    public boolean isPublic() {
+        return isPublic;
     }
 
-    public void set_public(boolean is_public) {
-        this.is_public = is_public;
+    public void setPublic(boolean aPublic) {
+        isPublic = aPublic;
     }
 
     public int getViews() {
