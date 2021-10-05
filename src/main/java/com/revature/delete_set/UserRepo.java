@@ -56,21 +56,21 @@ public class UserRepo {
         for(User u : users) {
             //Using toKeep to avoid ConcurrentModificationException
             List<User.UserSetDoc> toKeep = new ArrayList<>();
-            for (User.UserSetDoc set : u.getCreated_sets()) {
+            for (User.UserSetDoc set : u.getCreatedSets()) {
                 if (!set.getId().equals(id)) {
                     toKeep.add(set);
                 }
             }
-            u.setCreated_sets(toKeep);
+            u.setCreatedSets(toKeep);
 
             //Reset toKeep
             toKeep = new ArrayList<>();
-            for (User.UserSetDoc set : u.getFavorite_sets()) {
+            for (User.UserSetDoc set : u.getFavoriteSets()) {
                 if (!set.getId().equals(id)) {
                     toKeep.add(set);
                 }
             }
-            u.setFavorite_sets(toKeep);
+            u.setFavoriteSets(toKeep);
             userTable.putItem(u);
         }
     }
