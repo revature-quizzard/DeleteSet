@@ -28,11 +28,6 @@ public class DeleteSetHandler implements RequestHandler<APIGatewayProxyRequestEv
         this.userRepo = userRepo;
     }
 
-    public DeleteSetHandler(UserRepo mockUserRepo, SetRepo mockSetRepo) {
-        this.userRepo = mockUserRepo;
-        this.setRepo = mockSetRepo;
-    }
-
     /**
      * Handles a DELETE request to the /sets/id endpoint
      * @Authors Alfonso Holmes

@@ -9,6 +9,7 @@ import org.junit.jupiter.api.*;
 import java.util.Collections;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
@@ -36,9 +37,15 @@ class DeleteSetHandlerTest {
         mockUserRepo = mock(UserRepo.class);
         mockSetRepo = mock(SetRepo.class);
 
-        sut = new DeleteSetHandler(mockUserRepo, mockSetRepo);
+        User user = User.builder()
+                .id("valid")
+                .username("valid")
+                .build();
+
+        sut = new DeleteSetHandler(mockSetRepo, mockUserRepo);
 
         when(mockContext.getLogger()).thenReturn(testLogger);
+        when(mockSetRepo.deleteSetById(anyString())).thenReturn(true);
     }
 
     @AfterEach
