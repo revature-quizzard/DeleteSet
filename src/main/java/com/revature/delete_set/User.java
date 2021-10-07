@@ -10,7 +10,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Data
-@Builder
 @DynamoDbBean
 public class User {
 
